@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -182,13 +183,13 @@ export default function Home() {
             <div className="results-grid">
               {results.map((p) => (
                 <Link
-                  href={/projects/${p.id}}
+                  href={`/projects/${p.id}`}
                   className="result-row"
                   key={p.id}
                 >
                   <div
                     className="result-thumb"
-                    style={{ backgroundImage: url('${p.image}') }}
+                    style={{ backgroundImage: `url('${p.image}')` }}
                   />
 
                   <div>
