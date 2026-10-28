@@ -1,4 +1,0 @@
-import { NextResponse } from 'next/server';
-import { createAdminSession } from '@/lib/admin-auth';
-import bcrypt from 'bcryptjs';
-export async function POST(req:Request){try{const {email,password}=await req.json();const expectedEmail=process.env.ADMIN_EMAIL||'Prestigeinfrearealty@login.com';const hash=process.env.ADMIN_PASSWORD_HASH;let valid=false;if(hash)valid=await bcrypt.compare(String(password||''),hash);else valid=String(password||'')===(process.env.ADMIN_PASSWORD||'Priyanshu@1234');if(email!==expectedEmail||!valid)return NextResponse.json({error:'Invalid login. Set ADMIN_PASSWORD_HASH on the hosting environment.'},{status:401});const token=await createAdminSession(email);const res=NextResponse.json({ok:true});res.cookies.set('prestige_admin',token,{httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'lax',path:'/',maxAge:60*60*8});return res}catch{return NextResponse.json({error:'Login configuration error'},{status:500})}}
