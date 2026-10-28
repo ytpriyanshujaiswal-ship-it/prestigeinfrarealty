@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server';import {getDb} from '@/lib/db';
+export const dynamic='force-dynamic';
+export async function GET(_:Request,{params}:{params:{id:string}}){try{const sql=getDb();const rows=await sql`SELECT id,name,location,category,status,description,rera,media,amenities,configurations,map_url,model_3d_url,published,price,bsp,size,config,image,updated_at FROM projects WHERE id=${params.id} AND published=true LIMIT 1`;if(!rows.length)return NextResponse.json({error:'Project not found'},{status:404});return NextResponse.json(rows[0],{headers:{'Cache-Control':'no-store'}})}catch(e:any){return NextResponse.json({error:e.message||'Project unavailable'},{status:500})}}
